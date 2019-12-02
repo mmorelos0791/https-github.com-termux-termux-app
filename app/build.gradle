@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     dependencies {
         implementation "androidx.annotation:annotation:1.0.1"
@@ -15,7 +15,7 @@ android {
     defaultConfig {
         applicationId "com.termux"
         minSdkVersion 24
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 84
         versionName "0.84"
 
