@@ -1,48 +1,66 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    compileSdkVersion 28
 
-    sourceSets {
-	    main {
-		    jni.srcDirs = []
-	    }
+    dependencies {
+        implementation "androidx.annotation:annotation:1.0.1"
+        implementation "androidx.viewpager:viewpager:1.0.0"
+        implementation "androidx.drawerlayout:drawerlayout:1.0.0"
+        implementation project(":terminal-view")
     }
 
     defaultConfig {
         applicationId "com.termux"
         minSdkVersion 21
-        targetSdkVersion 22
-        versionCode 17
-        versionName "0.17"
+        targetSdkVersion 28
+        versionCode 83
+        versionName "0.83"
+
+        externalNativeBuild {
+            ndkBuild {
+                cFlags "-std=c11", "-Wall", "-Wextra", "-Werror", "-Os", "-fno-stack-protector", "-Wl,--gc-sections"
+            }
+        }
+
+        ndk {
+            abiFilters 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'
+        }
     }
 
     signingConfigs {
-	release {
-	    if (System.getenv("TRAVIS")) {
-		    storeFile rootProject.file('travis.keystore')
-		    storePassword 'abcdef'
-		    keyAlias 'travis'
-		    keyPassword 'abcdef'
-	    } else {
-		    storeFile new File(TERMUX_KEYSTORE_FILE)
-		    storePassword TERMUX_KEYSTORE_PASSWORD
-		    keyAlias TERMUX_KEYSTORE_ALIAS
-		    keyPassword TERMUX_KEYSTORE_PASSWORD
-	    }
-	}
+        debug {
+            storeFile file('dev_keystore.jks')
+            keyAlias 'alias'
+            storePassword 'xrj45yWGLbsO7W0v'
+            keyPassword 'xrj45yWGLbsO7W0v'
+        }
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-	    signingConfig signingConfigs.release
         }
+
+        debug {
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
 dependencies {
-    testCompile 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
+}
+
+task versionName {
+  doLast {
+    print android.defaultConfig.versionName
+  }
 }
