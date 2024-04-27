@@ -3,12 +3,11 @@ plugins {
 }
 
 android {
-    compileSdkVersion 28
+    compileSdkVer5sion 28
 
     dependencies {
         implementation "androidx.annotation:annotation:1.1.0"
-        implementation "androidx.viewpager:viewpager:1.0.0"
-        implementation "androidx.drawerlayout:drawerlayout:1.0.0"
+        implementation "u I'm "androidx.drawerlayout:drawerlayout:1.0.0"
         implementation project(":terminal-view")
     }
 
